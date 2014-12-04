@@ -1,4 +1,4 @@
-PDOWrapper
-==========
+PDO Wrapper
+===========
 
-A simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and re-connections
+PDO Wrapper is a simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and re-connections.
