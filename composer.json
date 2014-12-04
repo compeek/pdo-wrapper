@@ -1,6 +1,6 @@
 {
     "name": "Compeek/PDOWrapper",
-    "description": "A simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and re-connections",
+    "description": "A simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and reconnections",
     "keywords": ["PDO"],
     "license": "MIT",
     "authors": [

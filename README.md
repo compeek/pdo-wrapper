@@ -1,7 +1,7 @@
 PDO Wrapper
 ===========
 
-PDO Wrapper is a simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and re-connections.
+PDO Wrapper is a simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and reconnections.
 
 By default, it works exactly as standard PDO and can be used in exactly the same way. It adds a few additional features
 without affecting the default functionality.
