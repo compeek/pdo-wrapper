@@ -1,10 +1,15 @@
 PDO Wrapper
 ===========
 
-PDO Wrapper is a simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and reconnections.
+PDO Wrapper is a simple, drop-in PDO wrapper featuring lazy connect, manual disconnect, reconnect, and is alive testing.
 
 It is not a PDO abstraction, but a simple extension of PDO that adds a few useful features without affecting the
-standard functionality.
+standard functionality:
+
+- Lazy connect: the connection is not made until first needed
+- Manual disconnect: disconnect from the database at any time instead of just when the script ends
+- Reconnect: connect again later on after disconnecting, maintaining any previously created PDO statements
+- Is alive: test whether the connection is still alive 
 
 ## Installation
 
