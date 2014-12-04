@@ -9,8 +9,9 @@ namespace Compeek\PDOWrapper;
 /**
  * PDO wrapper
  *
- * The PDO wrapper class works as a drop-in replacement for the normal PDO class with a bit of additional functionality.
- * All normal PDO methods are exposed by the wrapper, so it can be used in exactly the same way as a normal PDO object.
+ * The PDO wrapper class works as a drop-in replacement for the standard PDO class with a bit of additional
+ * functionality. All standard PDO methods are exposed by the wrapper, so it can be used in exactly the same way as a
+ * standard PDO object.
  *
  * Behind the scenes, an actual PDO object is hidden within the wrapper so that all references to it can be controlled.
  * Likewise the actual PDO statements are hidden within the PDO statement wrappers.
@@ -24,9 +25,9 @@ namespace Compeek\PDOWrapper;
  * Lazy connect means that the connection is not made until first needed.
  *
  * Auto reconnect means that a new connection will be made as needed if previously disconnected from the database. It is
- * simply a convenience so that connect() does not need to be called manually later after disconnecting. Auto reconnect
- * does not mean that a dead connection will be detected and refreshed, which unfortunately is not feasible with
- * prepared statements and transactions and locks and so forth.
+ * simply a convenience so that connect() does not need to be called manually later on after disconnecting. Auto
+ * reconnect does not mean that a dead connection will be detected and refreshed, which unfortunately is not feasible
+ * with prepared statements and transactions and locks and so forth.
  *
  * @package Compeek\PDOWrapper
  */
@@ -61,9 +62,9 @@ class PDO extends \PDO {
         $this->lastKnownIsAliveOn = null;
 
         $this->pdo = null;
-        $this->pdoAttributes = [];
+        $this->pdoAttributes = array();
 
-        $this->pdoStatements = [];
+        $this->pdoStatements = array();
 
         if (!$lazyConnect) {
             $this->connect();
@@ -150,7 +151,7 @@ class PDO extends \PDO {
             $pdoStatement = null;
         }
 
-        $this->pdoStatements = [];
+        $this->pdoStatements = array();
 
         $this->pdo = null;
     }
@@ -206,14 +207,14 @@ class PDO extends \PDO {
     public function isAlive($cacheDuration = null) {
         // http://stackoverflow.com/a/3670000/361030
 
-        static $statements = [ // must try each statement until one known to be valid for DB
+        static $statements = array( // must try each statement until one known to be valid for DB
             "DO 1;", // MySQL >= 3.23.47
             "SELECT 1;", // MySQL, Microsoft SQL Server, PostgreSQL, SQLite, H2
             "SELECT 1 FROM DUAL;", // Oracle
             "SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS;", // HSQLDB
             "SELECT 1 FROM SYSIBM.SYSDUMMY1;", // DB2, Apache Derby
             "SELECT COUNT(*) FROM SYSTABLES;", // Informix
-        ];
+        );
 
         static $knownValidStatementIndex = null;
 
@@ -277,12 +278,12 @@ class PDO extends \PDO {
         $this->requireConnection();
 
         if ($prepared) {
-            $result = call_user_func_array([$this->pdo, 'prepare'], $args);
+            $result = call_user_func_array(array($this->pdo, 'prepare'), $args);
         } else {
             $result = $this->pdo->prepare($args[0]);
 
             if ($result && count($args) > 1) {
-                call_user_func_array([$result, 'setFetchMode'], array_slice($args, 1));
+                call_user_func_array(array($result, 'setFetchMode'), array_slice($args, 1));
             }
         }
 
@@ -371,15 +372,15 @@ class PDO extends \PDO {
     public function quote($string, $parameter_type = \PDO::PARAM_STR) {
         $this->requireConnection();
 
-        return call_user_func_array([$this->pdo, 'quote'], func_get_args());
+        return call_user_func_array(array($this->pdo, 'quote'), func_get_args());
     }
 
-    public function prepare($statement, array $driver_options = []) {
+    public function prepare($statement, array $driver_options = array()) {
         $this->requireConnection();
 
         $args = func_get_args();
 
-        $result = call_user_func_array([$this->pdo, 'prepare'], $args);
+        $result = call_user_func_array(array($this->pdo, 'prepare'), $args);
 
         if ($result) {
             $this->pdoStatements[] = &$result;
@@ -399,7 +400,7 @@ class PDO extends \PDO {
 
         $executedOn = microtime(true);
 
-        $result = call_user_func_array([$this->pdo, 'query'], $args);
+        $result = call_user_func_array(array($this->pdo, 'query'), $args);
 
         if ($result) {
             $this->lastKnownIsAlive = true;
@@ -433,6 +434,6 @@ class PDO extends \PDO {
     public function lastInsertId($name = NULL) {
         $this->requireConnection();
 
-        return call_user_func_array([$this->pdo, 'lastInsertId'], func_get_args());
+        return call_user_func_array(array($this->pdo, 'lastInsertId'), func_get_args());
     }
 }

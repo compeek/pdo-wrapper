@@ -9,9 +9,9 @@ namespace Compeek\PDOWrapper;
 /**
  * PDOStatement wrapper
  *
- * The PDO statement wrapper class works as a drop-in replacement for the normal PDO statement class with a bit of
- * additional functionality. All normal PDO statement methods are exposed by the wrapper, so it can be used in exactly
- * the same way as a normal PDO statement object.
+ * The PDO statement wrapper class works as a drop-in replacement for the standard PDO statement class with a bit of
+ * additional functionality. All standard PDO statement methods are exposed by the wrapper, so it can be used in exactly
+ * the same way as a standard PDO statement object.
  *
  * Behind the scenes, an actual PDO statement object is hidden within the wrapper so that all references to it can be
  * controlled.
@@ -57,11 +57,11 @@ class PDOStatement extends \PDOStatement {
         $this->args = $args;
 
         $this->pdoStatement = &$pdoStatement;
-        $this->pdoStatementAttributes = [];
-        $this->pdoStatementBindColumns = [];
-        $this->pdoStatementPostExecuteBindColumnNames = [];
-        $this->pdoStatementBindParams = [];
-        $this->pdoStatementBindValues = [];
+        $this->pdoStatementAttributes = array();
+        $this->pdoStatementBindColumns = array();
+        $this->pdoStatementPostExecuteBindColumnNames = array();
+        $this->pdoStatementBindParams = array();
+        $this->pdoStatementBindValues = array();
         $this->pdoStatementFetchMode = null;
     }
 
@@ -103,13 +103,13 @@ class PDOStatement extends \PDOStatement {
                 $this->pdoStatement->setAttribute($attribute, $value);
             }
 
-            $this->pdoStatementPostExecuteBindColumnNames = [];
+            $this->pdoStatementPostExecuteBindColumnNames = array();
 
             foreach ($this->pdoStatementBindColumns as $column => $args) {
                 $args[1] = &$args[1]; // ensure reference is passed to function since PHP seems to convert reference to value if no other variables reference data (e.g. if column bound to local variable in function that has ended)
 
                 try {
-                    $success = call_user_func_array([$this->pdoStatement, 'bindColumn'], $args);
+                    $success = call_user_func_array(array($this->pdoStatement, 'bindColumn'), $args);
                 } catch (\PDOException $e) {
                     $success = false;
                 }
@@ -122,15 +122,15 @@ class PDOStatement extends \PDOStatement {
             foreach ($this->pdoStatementBindParams as $args) {
                 $args[1] = &$args[1]; // ensure reference is passed to function since PHP seems to convert reference to value if no other variables reference data (e.g. if param bound to local variable in function that has ended)
 
-                call_user_func_array([$this->pdoStatement, 'bindParam'], $args);
+                call_user_func_array(array($this->pdoStatement, 'bindParam'), $args);
             }
 
             foreach ($this->pdoStatementBindValues as $args) {
-                call_user_func_array([$this->pdoStatement, 'bindValue'], $args);
+                call_user_func_array(array($this->pdoStatement, 'bindValue'), $args);
             }
 
             if ($this->pdoStatementFetchModeArgs !== null) {
-                call_user_func_array([$this->pdoStatement, 'setFetchMode'], $this->pdoStatementFetchModeArgs);
+                call_user_func_array(array($this->pdoStatement, 'setFetchMode'), $this->pdoStatementFetchModeArgs);
             }
 
             return true;
@@ -196,7 +196,7 @@ class PDOStatement extends \PDOStatement {
         $args = func_get_args();
         $args[1] = &$param;
 
-        $result = call_user_func_array([$this->pdoStatement, 'bindColumn'], $args);
+        $result = call_user_func_array(array($this->pdoStatement, 'bindColumn'), $args);
 
         if ($result) {
             unset($this->pdoStatementPostExecuteBindColumnNames[$column]);
@@ -212,7 +212,7 @@ class PDOStatement extends \PDOStatement {
         $args = func_get_args();
         $args[1] = &$variable;
 
-        $result = call_user_func_array([$this->pdoStatement, 'bindParam'], $args);
+        $result = call_user_func_array(array($this->pdoStatement, 'bindParam'), $args);
 
         if ($result) {
             unset($this->pdoStatementBindValues[$parameter]);
@@ -227,7 +227,7 @@ class PDOStatement extends \PDOStatement {
 
         $args = func_get_args();
 
-        $result = call_user_func_array([$this->pdoStatement, 'bindValue'], $args);
+        $result = call_user_func_array(array($this->pdoStatement, 'bindValue'), $args);
 
         if ($result) {
             unset($this->pdoStatementBindParams[$parameter]);
@@ -242,7 +242,7 @@ class PDOStatement extends \PDOStatement {
 
         $executedOn = microtime(true);
 
-        $result = call_user_func_array([$this->pdoStatement, 'execute'], func_get_args());
+        $result = call_user_func_array(array($this->pdoStatement, 'execute'), func_get_args());
 
         if ($result) {
             $this->pdoWrapperLastKnownIsAlive = true;
@@ -251,10 +251,10 @@ class PDOStatement extends \PDOStatement {
             foreach ($this->pdoStatementPostExecuteBindColumnNames as $column) {
                 $this->pdoStatementBindColumns[$column][1] = &$this->pdoStatementBindColumns[$column][1]; // ensure reference is passed to function since PHP seems to convert reference to value if no other variables reference data (e.g. if column bound to local variable in function that has ended)
 
-                call_user_func_array([$this->pdoStatement, 'bindColumn'], $this->pdoStatementBindColumns[$column]);
+                call_user_func_array(array($this->pdoStatement, 'bindColumn'), $this->pdoStatementBindColumns[$column]);
             }
 
-            $this->pdoStatementPostExecuteBindColumnNames = [];
+            $this->pdoStatementPostExecuteBindColumnNames = array();
         }
 
         return $result;
@@ -289,7 +289,7 @@ class PDOStatement extends \PDOStatement {
 
         $args = func_get_args();
 
-        $result = call_user_func_array([$this->pdoStatement, 'setFetchMode'], $args);
+        $result = call_user_func_array(array($this->pdoStatement, 'setFetchMode'), $args);
 
         if ($result) {
             $this->pdoStatementFetchModeArgs = $args;
@@ -301,25 +301,25 @@ class PDOStatement extends \PDOStatement {
     public function fetch($fetch_style = null, $cursor_orientation = \PDO::FETCH_ORI_NEXT, $cursor_offset = 0) {
         $this->requireConnection();
 
-        return call_user_func_array([$this->pdoStatement, 'fetch'], func_get_args());
+        return call_user_func_array(array($this->pdoStatement, 'fetch'), func_get_args());
     }
 
-    public function fetchAll($fetch_style = null, $fetch_argument = null, array $ctor_args = []) {
+    public function fetchAll($fetch_style = null, $fetch_argument = null, array $ctor_args = array()) {
         $this->requireConnection();
 
-        return call_user_func_array([$this->pdoStatement, 'fetchAll'], func_get_args());
+        return call_user_func_array(array($this->pdoStatement, 'fetchAll'), func_get_args());
     }
 
     public function fetchColumn($column_number = 0) {
         $this->requireConnection();
 
-        return call_user_func_array([$this->pdoStatement, 'fetchColumn'], func_get_args());
+        return call_user_func_array(array($this->pdoStatement, 'fetchColumn'), func_get_args());
     }
 
     public function fetchObject($class_name = "stdClass", array $ctor_args = null) {
         $this->requireConnection();
 
-        return call_user_func_array([$this->pdoStatement, 'fetchObject'], func_get_args());
+        return call_user_func_array(array($this->pdoStatement, 'fetchObject'), func_get_args());
     }
 
     public function closeCursor() {
