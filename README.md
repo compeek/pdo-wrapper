@@ -29,11 +29,9 @@ Add both the repository and the dependency to your composer.json:
 If your minimum-stability is "stable", you may need to override it for this package by appending "@dev" to the version:
 
 ```json
-{
     "require": {
         "Compeek/PDOWrapper": "dev-master@dev",
     }
-}
 ```
 
 ## Usage
@@ -62,7 +60,7 @@ query() on a PDO wrapper.
 
 There are no additional methods for the PDO statement wrappers other than a few used internally.
 
-See the code documentation for more in-depth details about implementation and usage than what is below.
+See the code documentation for more in-depth details about implementation and usage.
 
 ### Constructor Parameters
 
@@ -74,12 +72,14 @@ By default, lazy connect is disabled (false), but passing true to the constructo
 
 #### $autoReconnect
 
-Auto reconnect means that a new connection will be made as needed if previously disconnected from the database.
+Auto reconnect means that a new connection will be made as needed if the client was previously disconnected from the
+database.
 
-It is simply a convenience so that connect() does not need to be called manually later on after disconnecting.
+It is simply a convenience so that connect() does not need to be called manually later on after disconnecting. As soon
+as a method requiring a connection is called, a new connection will be made automatically.
 
 Auto reconnect does not mean that a dead connection will be detected and refreshed, which unfortunately is not feasible
-with prepared statements and transactions and locks and so forth.
+considering prepared statements, transactions, locks, etc., which are all generally stateful.
 
 By default, auto reconnect is disabled (false), but passing true to the constructor will enable it.
 
@@ -122,7 +122,7 @@ $db->connect();
 $connected = $db->isConnected();
 ```
 
-This method returns whether currently connected to the database.
+This method returns whether the client is currently connected to the database.
 
 It has nothing to do with whether the connection is still alive, but simply whether a connection was made that has not
 been manually disconnected. To test whether the connection is still alive, see isAlive();
