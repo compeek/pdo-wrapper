@@ -19,15 +19,15 @@ Add both the repository and the dependency to your composer.json:
 
 ```json
 {
+    "require": {
+        "Compeek/PDOWrapper": "dev-master",
+    },
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/Compeek/PDOWrapper"
         },
-    ],
-    "require": {
-        "Compeek/PDOWrapper": "dev-master",
-    }
+    ]
 }
 ```
 
