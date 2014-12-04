@@ -26,7 +26,7 @@ Add both the repository and the dependency to your composer.json:
         {
             "type": "vcs",
             "url": "https://github.com/Compeek/PDOWrapper"
-        },
+        }
     ]
 }
 ```
