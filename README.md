@@ -3,27 +3,76 @@ PDO Wrapper
 
 PDO Wrapper is a simple, drop-in PDO wrapper featuring lazy connections, manual disconnections, and reconnections.
 
-By default, it works exactly as standard PDO and can be used in exactly the same way. It adds a few additional features
-without affecting the default functionality.
+It is not a PDO abstraction, but a simple extension of PDO that adds a few useful features without affecting the
+standard functionality.
 
-The PDO and PDOStatement classes extend the standard PDO and PDOStatement classes, so the wrapper objects can be used
-anywhere standard PDO and PDO statement objects were previously used, and all standard methods remain the same.
+## Installation
 
-## Constructor Parameters
+Use Composer to install the library. See https://getcomposer.org if you are not familiar with it.
 
-There are two additional, boolean constructor parameters for the PDO wrapper object: $lazyConnect and $autoReconnect
+Add both the repository and the dependency to your composer.json:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Compeek/PDOWrapper"
+        },
+    ],
+    "require": {
+        "Compeek/PDOWrapper": "dev-master",
+    }
+}
+```
+
+If your minimum-stability is "stable", you may need to override it for this package by appending "@dev" to the version:
+
+```json
+{
+    "require": {
+        "Compeek/PDOWrapper": "dev-master@dev",
+    }
+}
+```
+
+## Usage
+
+The PDO and PDOStatement wrapper classes both wrap and extend the standard PDO and PDOStatement classes, so they can be
+used anywhere standard PDO and PDO statement objects were previously used, and all standard methods remain the same.
+
+Creating a PDO wrapper object is exactly the same as creating a standard PDO object: 
+
+```php
+$db = new \Compeek\PDOWrapper\PDO($dsn, $username, $password, $options);
+```
+
+However, there are two optional additional parameters: $lazyConnect and $autoReconnect (both boolean):
 
 ```php
 $db = new \Compeek\PDOWrapper\PDO($dsn, $username, $password, $options, $lazyConnect, $autoReconnect);
 ```
 
-### Lazy Connect
+These are explained below.
+
+There are some additional methods for the PDO wrapper as well. These are also explained below.
+
+As with standard PDO, the PDO statement wrappers are never created directly, but as a result of calling prepare() or 
+query() on a PDO wrapper.
+
+There are no additional methods for the PDO statement wrappers other than a few used internally.
+
+See the code documentation for more in-depth details about implementation and usage than what is below.
+
+### Constructor Parameters
+
+#### $lazyConnect
 
 Lazy connect means that the connection is not made until first needed.
 
 By default, lazy connect is disabled (false), but passing true to the constructor will enable it.
 
-### Auto Reconnect
+#### $autoReconnect
 
 Auto reconnect means that a new connection will be made as needed if previously disconnected from the database.
 
@@ -34,11 +83,9 @@ with prepared statements and transactions and locks and so forth.
 
 By default, auto reconnect is disabled (false), but passing true to the constructor will enable it.
 
-## Methods
+### Methods
 
-There are some additional methods for the PDO wrapper object.
-
-### connect()
+#### connect()
 
 ```php
 $db->connect();
@@ -46,7 +93,7 @@ $db->connect();
 
 If not currently connected to the database, a connection will be made.
 
-### disconnect()
+#### disconnect()
 
 ```php
 $db->disconnect();
@@ -54,7 +101,7 @@ $db->disconnect();
 
 If currently connected to the database, the connection will be dropped.
 
-### reconnect()
+#### reconnect()
 
 ```php
 $db->reconnect();
@@ -69,7 +116,7 @@ $db->disconnect();
 $db->connect();
 ```
 
-### isConnected()
+#### isConnected()
 
 ```php
 $connected = $db->isConnected();
@@ -80,7 +127,7 @@ This method returns whether currently connected to the database.
 It has nothing to do with whether the connection is still alive, but simply whether a connection was made that has not
 been manually disconnected. To test whether the connection is still alive, see isAlive();
 
-### isAlive()
+#### isAlive()
 
 ```php
 $alive = $db->isAlive();
@@ -91,7 +138,7 @@ This method returns whether the connection is still alive.
 It does so by executing a no-op SQL query and checking whether it succeeds.
 
 To avoid spamming the database when calling this method multiple times in a short time span, you can use the optional
-$cacheDuration parameter:
+$cacheDuration parameter (integer):
  
 ```php
 $cacheDuration = 3;
