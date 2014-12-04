@@ -14,7 +14,7 @@ anywhere standard PDO and PDO statement objects were previously used, and all st
 There are two additional, boolean constructor parameters for the PDO wrapper object: $lazyConnect and $autoReconnect
 
 ```php
-$db = new \Compeek\PDOWrapper\PDO($dsn, $username, $password, $options, $lazyConnect, $autReconnect);
+$db = new \Compeek\PDOWrapper\PDO($dsn, $username, $password, $options, $lazyConnect, $autoReconnect);
 ```
 
 ### Lazy Connect
@@ -86,9 +86,22 @@ been manually disconnected. To test whether the connection is still alive, see i
 $alive = $db->isAlive();
 ```
 
-This method tests whether the connection is still alive.
+This method returns whether the connection is still alive.
 
 It does so by executing a no-op SQL query and checking whether it succeeds.
+
+To avoid spamming the database when calling this method multiple times in a short time span, you can use the optional
+$cacheDuration parameter:
+ 
+```php
+$cacheDuration = 3;
+$alive = $db->isAlive($cacheDuration);
+```
+ 
+The cache duration is the minimum number of seconds between actual connection tests. If the connection was tested within
+the last specified number of seconds, calling this method again will simply return the cached alive status, and no
+additional query will be executed. By default, the cache is disabled, and calling the method will always test the
+connection.
 
 While good programming practice is not to hold a connection open for longer than it is needed at one time, this method
 can be used to ensure the connection is still alive before executing more SQL statements if there is a possibility that
@@ -98,9 +111,9 @@ the connection has timed out.
 
 Any standard PDO errors or exceptions are simply passed through.
 
-The one special case is if a method requiring a connection is called, but there is not currently a connection to the
-database and auto reconnect is disabled. In that case, a \Compeek\PDOWrapper\NotConnectedException will be thrown (even
-if the PDO error mode is not set to exceptions).
+The one special case is if a method requiring a connection is called, but the client was previously disconnected and
+auto reconnect is disabled, then a \Compeek\PDOWrapper\NotConnectedException will be thrown (even if the PDO error mode
+is not set to exceptions).
 
 ## Requirements
 
