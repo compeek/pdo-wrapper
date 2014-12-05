@@ -20,12 +20,12 @@ Add both the repository and the dependency to your composer.json:
 ```json
 {
     "require": {
-        "Compeek/PDOWrapper": "dev-master",
+        "compeek/pdo-wrapper": "dev-master",
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/Compeek/PDOWrapper"
+            "url": "https://github.com/compeek/pdo-wrapper"
         }
     ]
 }
@@ -35,7 +35,7 @@ If your minimum-stability is "stable", you may need to override it for this pack
 
 ```json
     "require": {
-        "Compeek/PDOWrapper": "dev-master@dev",
+        "compeek/pdo-wrapper": "dev-master@dev",
     }
 ```
 
