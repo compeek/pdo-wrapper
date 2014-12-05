@@ -76,7 +76,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Determines whether connected to database (not whether connection is alive)
+     * Determines whether the client is connected to the database (not whether the connection is alive)
      *
      * This has nothing to do with whether the connection is still alive, but simply whether a connection was made that
      * has not been manually disconnected. To check whether the connection is still alive, use isAlive().
@@ -89,7 +89,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Connects to database
+     * Connects to the database
      *
      * To connect to the database, a new PDO object is created and hidden within the wrapper. Any related PDO statements
      * are lazily recreated by the PDO statement wrapper.
@@ -134,7 +134,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Disconnects from database
+     * Disconnects from the database
      *
      * To disconnect from the database, the PDO object and any related PDO statement objects are destroyed so that they
      * are garbage collected, causing the PDO driver to drop the connection.
@@ -157,7 +157,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Disconnects and reconnects to database
+     * Disconnects from and reconnects to the database
      */
     public function reconnect() {
         $this->disconnect();
@@ -188,7 +188,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Determines whether connection is alive
+     * Determines whether the connection is alive
      *
      * A no-op query is executed to test whether the connection is alive (if the query succeeds). Since there is no
      * universal no-op SQL query for all databases, multiple queries are tried until one is known to succeed at least
@@ -245,7 +245,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Requires connection to database, automatically connecting if disconnected if possible
+     * Requires a connection to the database, automatically connecting if allowed if the client is not connected
      *
      * @throws \Compeek\PDOWrapper\NotConnectedException
      */
@@ -260,7 +260,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Creates new PDO statement and injects it into PDO statement wrapper
+     * Recreates a PDO statement and injects it into the given PDO statement wrapper
      *
      * When disconnecting from the database, any related PDO statements are destroyed and need to be recreated if they
      * are to be used again. Each PDO statement wrapper initiates the recreation upon next use by calling this method,
@@ -299,15 +299,17 @@ class PDO extends \PDO {
     }
 
     /**
-     * Forgets PDO statement when PDO statement wrapper destroyed
+     * Forgets the given PDO statement
      *
      * When a PDO statement is created, a reference to it is remembered in this class so it can be destroyed and garbage
      * collected when disconnecting from the database. If a PDO statement wrapper is destroyed, the reference to its PDO
      * statement can be forgotten so that it is garbage collected immediately.
      *
+     * This method should only be called by the PDO statement wrapper, never elsewhere.
+     *
      * @param \PDOStatement $pdoStatement
      */
-    public function handlePdoStatementWrapperDestruction(\PDOStatement $pdoStatement) {
+    public function forgetPdoStatement(\PDOStatement $pdoStatement) {
         $index = array_search($pdoStatement, $this->pdoStatements);
 
         if ($index !== false) {

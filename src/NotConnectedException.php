@@ -7,7 +7,7 @@
 namespace Compeek\PDOWrapper;
 
 /**
- * Exception thrown when not connected
+ * Exception thrown when a connection is required, but the client is not connected
  *
  * @package Compeek\PDOWrapper
  */

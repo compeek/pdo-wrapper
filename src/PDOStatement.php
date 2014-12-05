@@ -66,18 +66,18 @@ class PDOStatement extends \PDOStatement {
     }
 
     /**
-     * Informs PDO wrapper that PDO statement wrapper is being destroyed and destroys PDO statement
+     * Informs the PDO wrapper that the PDO statement wrapper is being destroyed and destroys the PDO statement
      */
     public function __destruct() {
         if ($this->pdoStatement !== null) {
-            $this->pdoWrapper->handlePdoStatementWrapperDestruction($this->pdoStatement);
+            $this->pdoWrapper->forgetPdoStatement($this->pdoStatement);
 
             $this->pdoStatement = null;
         }
     }
 
     /**
-     * Sets PDO statement
+     * Sets the PDO statement
      *
      * This method should only be called by the PDO wrapper, never elsewhere.
      *
@@ -88,7 +88,7 @@ class PDOStatement extends \PDOStatement {
     }
 
     /**
-     * Recreates PDO statement
+     * Recreates the PDO statement
      *
      * To recreate a PDO statement, all attributes, options, and bindings are restored from the previous one, giving the
      * illusion that the PDO statement is the same one as before. However, since sometimes columns can only be bound
@@ -140,7 +140,7 @@ class PDOStatement extends \PDOStatement {
     }
 
     /**
-     * Requires connection to database, automatically connecting if disconnected if possible
+     * Requires a connection to the database, automatically connecting if allowed if the client is not connected
      *
      * If the PDO statement does not exist, that means it was destroyed when last disconnected from the database and
      * must be recreated, which in turn will require a connection. If the PDO statement does exist, there is already
