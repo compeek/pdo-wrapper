@@ -25,19 +25,53 @@ namespace Compeek\PDOWrapper;
  * @package Compeek\PDOWrapper
  */
 class PDOStatement extends \PDOStatement {
+    /**
+     * @var \Compeek\PDOWrapper\PDO
+     */
     protected $pdoWrapper;
+    /**
+     * @var bool|null
+     */
     protected $pdoWrapperLastKnownIsAlive;
+    /**
+     * @var int|null
+     */
     protected $pdoWrapperLastKnownIsAliveOn;
-
+    /**
+     * @var bool
+     */
     protected $prepared;
-    protected $args; // PDO->prepare() or PDO->query() args
-
+    /**
+     * @var array PDO->prepare() or PDO->query() args
+     */
+    protected $args;
+    /**
+     * @var \PDOStatement|null
+     */
     protected $pdoStatement;
+    /**
+     * @var array
+     */
     protected $pdoStatementAttributes;
+    /**
+     * @var array
+     */
     protected $pdoStatementBindColumns;
-    protected $pdoStatementPostExecuteBindColumnNames; // columns that cannot be bound before statement execution when reconstructing statement
+    /**
+     * @var array columns that cannot be bound before statement execution when reconstructing statement
+     */
+    protected $pdoStatementPostExecuteBindColumnNames;
+    /**
+     * @var array
+     */
     protected $pdoStatementBindParams;
+    /**
+     * @var array
+     */
     protected $pdoStatementBindValues;
+    /**
+     * @var array|null
+     */
     protected $pdoStatementFetchModeArgs;
 
     /**
@@ -62,7 +96,7 @@ class PDOStatement extends \PDOStatement {
         $this->pdoStatementPostExecuteBindColumnNames = array();
         $this->pdoStatementBindParams = array();
         $this->pdoStatementBindValues = array();
-        $this->pdoStatementFetchMode = null;
+        $this->pdoStatementFetchModeArgs = null;
     }
 
     /**

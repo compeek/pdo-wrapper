@@ -34,16 +34,37 @@ namespace Compeek\PDOWrapper;
 class PDO extends \PDO {
     const PDO_STATEMENT_WRAPPER_CLASS = '\\Compeek\\PDOWrapper\\PDOStatement';
 
-    protected $args; // PDO constructor args
+    /**
+     * @var array PDO constructor args
+     */
+    protected $args;
+    /**
+     * @var bool
+     */
     protected $autoReconnect;
+    /**
+     * @var bool
+     */
     protected $firstConnected;
+    /**
+     * @var bool|null
+     */
     protected $lastKnownIsAlive;
+    /**
+     * @var int|null
+     */
     protected $lastKnownIsAliveOn;
-    protected $pdoStatementWrapperClass;
-
+    /**
+     * @var \PDO|null
+     */
     protected $pdo;
+    /**
+     * @var array
+     */
     protected $pdoAttributes;
-
+    /**
+     * @var \PDOStatement[]
+     */
     protected $pdoStatements;
 
     /**
