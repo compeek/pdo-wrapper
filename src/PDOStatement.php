@@ -34,11 +34,11 @@ class PDOStatement extends \PDOStatement {
      */
     protected $pdoWrapperLastKnownIsAlive;
     /**
-     * @var int|null last time connection alive status known
+     * @var int|null last time the connection alive status was known
      */
     protected $pdoWrapperLastKnownIsAliveOn;
     /**
-     * @var bool whether statement is prepared
+     * @var bool whether the statement is prepared
      */
     protected $prepared;
     /**
@@ -58,7 +58,7 @@ class PDOStatement extends \PDOStatement {
      */
     protected $pdoStatementBindColumns;
     /**
-     * @var array columns that cannot be bound before statement execution when reconstructing statement
+     * @var array columns that cannot be bound until after the statement is executed for the first time
      */
     protected $pdoStatementPostExecuteBindColumnNames;
     /**
@@ -77,8 +77,8 @@ class PDOStatement extends \PDOStatement {
     /**
      * @param PDO $pdoWrapper
      * @param bool $pdoWrapperLastKnownIsAlive last connection alive status
-     * @param int $pdoWrapperLastKnownIsAliveOn last time connection alive status known
-     * @param bool $prepared whether statement is prepared
+     * @param int $pdoWrapperLastKnownIsAliveOn last time the connection alive status was known
+     * @param bool $prepared whether the statement is prepared
      * @param array $args PDO->prepare() or PDO->query() args
      * @param \PDOStatement $pdoStatement
      */

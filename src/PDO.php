@@ -22,7 +22,7 @@ namespace Compeek\PDOWrapper;
  * reconnecting to the database, a new PDO object is created, and any related PDO statements are lazily recreated from
  * the new PDO object upon next use. This all happens seamlessly behind the scenes.
  *
- * Lazy connect means that the connection is not made until first needed.
+ * Lazy connect means that the initial connection will not be made until is it actually needed.
  *
  * Auto reconnect means that a new connection will be made as needed if previously disconnected from the database. It is
  * simply a convenience so that connect() does not need to be called manually later on after disconnecting. Auto
@@ -43,7 +43,7 @@ class PDO extends \PDO {
      */
     protected $autoReconnect;
     /**
-     * @var bool whether client has been connected for first time
+     * @var bool whether the client has been connected for the first time
      */
     protected $firstConnected;
     /**
@@ -51,7 +51,7 @@ class PDO extends \PDO {
      */
     protected $lastKnownIsAlive;
     /**
-     * @var int|null last time connection alive status known
+     * @var int|null last time the connection alive status was known
      */
     protected $lastKnownIsAliveOn;
     /**
@@ -72,7 +72,7 @@ class PDO extends \PDO {
      * @param string $username
      * @param string $password
      * @param array $options
-     * @param bool $lazyConnect whether to delay connection until first needed
+     * @param bool $lazyConnect whether to delay the initial connection until it is actually needed
      * @param bool $autoReconnect whether to automatically reconnect as needed if previously disconnected
      */
     public function __construct($dsn, $username = null, $password = null, array $options = null, $lazyConnect = false, $autoReconnect = false) {
@@ -187,7 +187,7 @@ class PDO extends \PDO {
      * A failure does not necessarily mean that the connection is dead. The statement could simply be invalid for the
      * current database, in which case another query should be tried until one is known to succeed at least once.
      *
-     * @param string $statement SQL no-op statement
+     * @param string $statement
      * @return bool
      */
     protected function executeIsAliveStatement($statement) {
@@ -217,7 +217,7 @@ class PDO extends \PDO {
      * last number of seconds, and will instead assume the last known status. If a cache duration is not given, then the
      * connection will be tested every time.
      *
-     * @param int $cacheDuration seconds for which to cache alive status
+     * @param int $cacheDuration seconds for which to cache the alive status
      * @return bool
      * @throws \Compeek\PDOWrapper\NotConnectedException
      */
@@ -285,8 +285,8 @@ class PDO extends \PDO {
      *
      * This method should only be called by the PDO statement wrapper, never elsewhere.
      *
-     * @param \Compeek\PDOWrapper\PDOStatement $pdoStatementWrapper PDO statement wrapper requiring new PDO statement
-     * @param bool $prepared whether statement is prepared
+     * @param \Compeek\PDOWrapper\PDOStatement $pdoStatementWrapper
+     * @param bool $prepared whether the statement is prepared
      * @param array $args PDO->prepare() or PDO->query() args
      * @return bool
      * @throws \Compeek\PDOWrapper\NotConnectedException
