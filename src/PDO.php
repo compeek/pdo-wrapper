@@ -182,7 +182,7 @@ class PDO extends \PDO {
     }
 
     /**
-     * Tests whether connection is alive using specified SQL statement
+     * Tests whether the connection is alive using the given SQL statement
      *
      * A failure does not necessarily mean that the connection is dead. The statement could simply be invalid for the
      * current database, in which case another query should be tried until one is known to succeed at least once.
@@ -213,9 +213,9 @@ class PDO extends \PDO {
      *
      * Since the connection can usually be assumed to be alive if it was very recently known to be alive, and to avoid
      * spamming the database with useless queries when testing the connection multiple times in a short time span, a
-     * cache duration can be specified, which will prevent actually testing the connection if it was tested within the
-     * specified last number of seconds, and will instead assume the last known status. If a cache duration is not
-     * specified, then the connection will be tested every time.
+     * cache duration can be given, which will prevent actually testing the connection if it was tested within the X
+     * last number of seconds, and will instead assume the last known status. If a cache duration is not given, then the
+     * connection will be tested every time.
      *
      * @param int $cacheDuration seconds for which to cache alive status
      * @return bool

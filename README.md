@@ -151,9 +151,8 @@ $alive = $db->isAlive($cacheDuration);
 ```
  
 The cache duration is the minimum number of seconds between actual connection tests. If the connection was tested within
-the last specified number of seconds, calling this method again will simply return the cached alive status, and no
-additional query will be executed. By default, the cache is disabled, and calling the method will always test the
-connection.
+the last X number of seconds, calling this method again will simply return the cached alive status, and no additional
+query will be executed. By default, the cache is disabled, and calling the method will always test the connection.
 
 While good programming practice is not to hold a connection open for longer than it is needed at one time, this method
 can be used to ensure the connection is still alive before executing more SQL statements if there is a possibility that
