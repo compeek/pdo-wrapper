@@ -43,7 +43,7 @@ class PDO extends \PDO {
      */
     protected $autoReconnect;
     /**
-     * @var bool whether has been connected for first time
+     * @var bool whether client has been connected for first time
      */
     protected $firstConnected;
     /**
