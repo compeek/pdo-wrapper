@@ -43,15 +43,15 @@ class PDO extends \PDO {
      */
     protected $autoReconnect;
     /**
-     * @var bool
+     * @var bool whether has been connected for first time
      */
     protected $firstConnected;
     /**
-     * @var bool|null
+     * @var bool|null last connection alive status
      */
     protected $lastKnownIsAlive;
     /**
-     * @var int|null
+     * @var int|null last time connection alive status known
      */
     protected $lastKnownIsAliveOn;
     /**
@@ -90,10 +90,6 @@ class PDO extends \PDO {
         if (!$lazyConnect) {
             $this->connect();
         }
-    }
-
-    public static function getAvailableDrivers() {
-        return parent::getAvailableDrivers();
     }
 
     /**
@@ -336,6 +332,10 @@ class PDO extends \PDO {
         if ($index !== false) {
             array_splice($this->pdoStatements, $index, 1);
         }
+    }
+
+    public static function getAvailableDrivers() {
+        return parent::getAvailableDrivers();
     }
 
     public function errorCode() {

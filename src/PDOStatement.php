@@ -30,15 +30,15 @@ class PDOStatement extends \PDOStatement {
      */
     protected $pdoWrapper;
     /**
-     * @var bool|null
+     * @var bool|null last connection alive status
      */
     protected $pdoWrapperLastKnownIsAlive;
     /**
-     * @var int|null
+     * @var int|null last time connection alive status known
      */
     protected $pdoWrapperLastKnownIsAliveOn;
     /**
-     * @var bool
+     * @var bool whether statement is prepared
      */
     protected $prepared;
     /**
@@ -75,12 +75,12 @@ class PDOStatement extends \PDOStatement {
     protected $pdoStatementFetchModeArgs;
 
     /**
-     * @param PDO $pdoWrapper PDO wrapper creating PDO statement
+     * @param PDO $pdoWrapper
      * @param bool $pdoWrapperLastKnownIsAlive last connection alive status
      * @param int $pdoWrapperLastKnownIsAliveOn last time connection alive status known
      * @param bool $prepared whether statement is prepared
      * @param array $args PDO->prepare() or PDO->query() args
-     * @param \PDOStatement $pdoStatement PDO statement
+     * @param \PDOStatement $pdoStatement
      */
     public function __construct(\Compeek\PDOWrapper\PDO $pdoWrapper, &$pdoWrapperLastKnownIsAlive, &$pdoWrapperLastKnownIsAliveOn, $prepared, array $args, \PDOStatement &$pdoStatement) {
         $this->pdoWrapper = $pdoWrapper;
@@ -130,6 +130,7 @@ class PDOStatement extends \PDOStatement {
      * tried again after the statement is next executed.
      *
      * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
      */
     protected function reconstructPdoStatement() {
         if ($this->pdoWrapper->reconstructPdoStatement($this, $this->prepared, $this->args)) {
