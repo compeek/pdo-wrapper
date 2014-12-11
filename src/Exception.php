@@ -7,7 +7,7 @@
 namespace Compeek\PDOWrapper;
 
 /**
- * Base exception
+ * Base exception, never thrown directly
  *
  * @package Compeek\PDOWrapper
  */
