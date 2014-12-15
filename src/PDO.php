@@ -334,28 +334,50 @@ class PDO extends \PDO {
         }
     }
 
+    /**
+     * @return array
+     */
     public static function getAvailableDrivers() {
         return parent::getAvailableDrivers();
     }
 
+    /**
+     * @return string|null
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function errorCode() {
         $this->requireConnection();
 
         return $this->pdo->errorCode();
     }
 
+    /**
+     * @return array
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function errorInfo() {
         $this->requireConnection();
 
         return $this->pdo->errorInfo();
     }
 
+    /**
+     * @param int $attribute
+     * @return mixed
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function getAttribute($attribute) {
         $this->requireConnection();
 
         return $this->pdo->getAttribute($attribute);
     }
 
+    /**
+     * @param int $attribute
+     * @param mixed $value
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function setAttribute($attribute, $value) {
         $this->requireConnection();
 
@@ -368,36 +390,64 @@ class PDO extends \PDO {
         return $result;
     }
 
+    /**
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function inTransaction() {
         $this->requireConnection();
 
         return $this->pdo->inTransaction();
     }
 
+    /**
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function beginTransaction() {
         $this->requireConnection();
 
         return $this->pdo->beginTransaction();
     }
 
+    /**
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function commit() {
         $this->requireConnection();
 
         return $this->pdo->commit();
     }
 
+    /**
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function rollBack() {
         $this->requireConnection();
 
         return $this->pdo->rollBack();
     }
 
+    /**
+     * @param string $string
+     * @param int $parameter_type
+     * @return string
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function quote($string, $parameter_type = \PDO::PARAM_STR) {
         $this->requireConnection();
 
         return call_user_func_array(array($this->pdo, 'quote'), func_get_args());
     }
 
+    /**
+     * @param string $statement
+     * @param array $driver_options
+     * @return \Compeek\PDOWrapper\PDOStatement|false
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function prepare($statement, array $driver_options = array()) {
         $this->requireConnection();
 
@@ -416,6 +466,11 @@ class PDO extends \PDO {
         }
     }
 
+    /**
+     * @param string $statement
+     * @return \Compeek\PDOWrapper\PDOStatement|false
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function query($statement) {
         $this->requireConnection();
 
@@ -439,6 +494,11 @@ class PDO extends \PDO {
         }
     }
 
+    /**
+     * @param string $statement
+     * @return int|false
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function exec($statement) {
         $this->requireConnection();
 
@@ -454,6 +514,11 @@ class PDO extends \PDO {
         return $result;
     }
 
+    /**
+     * @param string|null $name
+     * @return string
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function lastInsertId($name = NULL) {
         $this->requireConnection();
 

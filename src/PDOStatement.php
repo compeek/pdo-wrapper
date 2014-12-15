@@ -129,7 +129,7 @@ class PDOStatement extends \PDOStatement {
      * after a result set is retrieved, any errors binding columns here will be ignored, and the column bindings will be
      * tried again after the statement is next executed.
      *
-     * @return bool
+     * @return bool whether successful
      * @throws \Compeek\PDOWrapper\NotConnectedException
      */
     protected function reconstructPdoStatement() {
@@ -189,30 +189,52 @@ class PDOStatement extends \PDOStatement {
         }
     }
 
+    /**
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function debugDumpParams() {
         $this->requireConnection();
 
         return $this->pdoStatement->debugDumpParams();
     }
 
+    /**
+     * @return string
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function errorCode() {
         $this->requireConnection();
 
         return $this->pdoStatement->errorCode();
     }
 
+    /**
+     * @return array
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function errorInfo() {
         $this->requireConnection();
 
         return $this->pdoStatement->errorInfo();
     }
 
+    /**
+     * @param int $attribute
+     * @return mixed
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function getAttribute($attribute) {
         $this->requireConnection();
 
         return $this->pdoStatement->getAttribute($attribute);
     }
 
+    /**
+     * @param int $attribute
+     * @param mixed $value
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function setAttribute($attribute, $value) {
         $this->requireConnection();
 
@@ -225,6 +247,15 @@ class PDOStatement extends \PDOStatement {
         return $result;
     }
 
+    /**
+     * @param mixed $column
+     * @param mixed $param
+     * @param int $type
+     * @param int $maxlen
+     * @param mixed $driverdata
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function bindColumn($column, &$param, $type = null, $maxlen = null, $driverdata = null) {
         $this->requireConnection();
 
@@ -241,6 +272,15 @@ class PDOStatement extends \PDOStatement {
         return $result;
     }
 
+    /**
+     * @param mixed $parameter
+     * @param mixed $variable
+     * @param int $data_type
+     * @param int $length
+     * @param mixed $driver_options
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function bindParam($parameter, &$variable, $data_type = \PDO::PARAM_STR, $length = null, $driver_options = null) {
         $this->requireConnection();
 
@@ -257,6 +297,13 @@ class PDOStatement extends \PDOStatement {
         return $result;
     }
 
+    /**
+     * @param mixed $parameter
+     * @param mixed $value
+     * @param int $data_type
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function bindValue($parameter, $value, $data_type = \PDO::PARAM_STR) {
         $this->requireConnection();
 
@@ -272,6 +319,11 @@ class PDOStatement extends \PDOStatement {
         return $result;
     }
 
+    /**
+     * @param array $input_parameters
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function execute(array $input_parameters = null) {
         $this->requireConnection();
 
@@ -295,30 +347,52 @@ class PDOStatement extends \PDOStatement {
         return $result;
     }
 
+    /**
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function nextRowset() {
         $this->requireConnection();
 
         return $this->pdoStatement->nextRowset();
     }
 
+    /**
+     * @param int $column
+     * @return array
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function getColumnMeta($column) {
         $this->requireConnection();
 
         return $this->pdoStatement->getColumnMeta($column);
     }
 
+    /**
+     * @return int
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function columnCount() {
         $this->requireConnection();
 
         return $this->pdoStatement->columnCount();
     }
 
+    /**
+     * @return int
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function rowCount() {
         $this->requireConnection();
 
         return $this->pdoStatement->rowCount();
     }
 
+    /**
+     * @param int $mode
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function setFetchMode($mode) {
         $this->requireConnection();
 
@@ -333,30 +407,59 @@ class PDOStatement extends \PDOStatement {
         return $result;
     }
 
+    /**
+     * @param int $fetch_style
+     * @param int $cursor_orientation
+     * @param int $cursor_offset
+     * @return mixed|false
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function fetch($fetch_style = null, $cursor_orientation = \PDO::FETCH_ORI_NEXT, $cursor_offset = 0) {
         $this->requireConnection();
 
         return call_user_func_array(array($this->pdoStatement, 'fetch'), func_get_args());
     }
 
+    /**
+     * @param int $fetch_style
+     * @param mixed $fetch_argument
+     * @param array $ctor_args
+     * @return array|false
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function fetchAll($fetch_style = null, $fetch_argument = null, array $ctor_args = array()) {
         $this->requireConnection();
 
         return call_user_func_array(array($this->pdoStatement, 'fetchAll'), func_get_args());
     }
 
+    /**
+     * @param int $column_number
+     * @return string
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function fetchColumn($column_number = 0) {
         $this->requireConnection();
 
         return call_user_func_array(array($this->pdoStatement, 'fetchColumn'), func_get_args());
     }
 
+    /**
+     * @param string $class_name
+     * @param array $ctor_args
+     * @return object|false
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function fetchObject($class_name = "stdClass", array $ctor_args = null) {
         $this->requireConnection();
 
         return call_user_func_array(array($this->pdoStatement, 'fetchObject'), func_get_args());
     }
 
+    /***
+     * @return bool
+     * @throws \Compeek\PDOWrapper\NotConnectedException
+     */
     public function closeCursor() {
         $this->requireConnection();
 
