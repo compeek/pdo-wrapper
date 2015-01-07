@@ -1,7 +1,7 @@
 {
     "name": "compeek/pdo-wrapper",
-    "description": "A simple, drop-in PDO wrapper featuring lazy connect, manual disconnect, reconnect, and is alive testing",
-    "keywords": ["PDO", "database"],
+    "description": "PDO Wrapper is a simple, drop-in PDO wrapper for PHP featuring lazy connect, manual disconnect, reconnect, and is alive testing.",
+    "keywords": ["PHP", "PDO", "database"],
     "license": "MIT",
     "authors": [
         {
